@@ -1,4 +1,3 @@
-const { loadEnvFile } = require("node:process");
 process.loadEnvFile("./.env");
 
 const express = require("express");
@@ -19,7 +18,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // session and passsport setup.
-app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
 app.use(passport.session());
 
 app.use((req, res, next) => {
@@ -31,7 +36,9 @@ app.use((req, res, next) => {
 });
 
 app.use("/", router);
-
+app.use((req, res, next) =>
+  next(Object.assign(new Error("Page not found"), { status: 404 })),
+);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
