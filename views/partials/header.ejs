@@ -1,0 +1,21 @@
+<header>
+  <a href="/">
+    <h1>MEMBERS ONLY</h1>
+  </a>
+
+    <% if (locals.currUser) {%>
+      <div class="headerUsername" style="background-color: <%=currUser.admin ? "firebrick" :currUser.member ? "goldenrod" : "black"%>">Welcome back <%=currUser.username%></div>
+      <% } %>
+  <div class="headerBtnDiv">
+    <% if (locals.currUser) {%>
+      <a class="headerBtn btn" href="/new-message">New Message</a>
+      <a class="headerBtn btn" href="/unlock">Unlock</a>
+      <form class="logout-Form" action="/logout" method="POST">
+        <button class="headerBtn btn logoutBtn" type="submit">Logout</button>
+       </form>
+    <% } else { %>
+    <a class="headerBtn btn" href="/sign-in">Sign In</a>
+    <a class="headerBtn btn" href="/register">Register</a>
+    <% } %>
+  </div>
+</header>

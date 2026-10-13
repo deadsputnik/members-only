@@ -1,0 +1,28 @@
+<div class="msg-cont">
+  <div class="msg-titlebar">
+    <h3>
+      <%= message.title %>
+    </h3>
+      <% if(locals.currUser?.admin) { %> 
+    <form action="/<%=message.id%>/delete" method="POST">
+      <button class="deleteBtn" onclick="return confirm('Are you sure you want to delete this message? Title: <%= message.title %>');" type="submit">X</button>
+    </form>
+  <% } %>
+  </div>
+  <p class="msg"><%= message.message %></p>
+  <div class="msg-infobar">
+    <% if(locals.currUser?.member || locals.currUser?.admin) {%>
+    <div class="name">
+     <div><%= message.first_name %></div>
+     <div><%= message.last_name %></div>
+    </div>
+    <div class="date"><%= message.posted_on.toLocaleTimeString('en-GB') %> <%= message.posted_on.toLocaleDateString('en-GB') %></div>
+    <% } else { %>
+    <div class="name">
+      <div class="redacted">XXXXX</div>
+      <div class="redacted">XXXXX</div>
+    </div>
+    <div class="date redacted">XX:XX:XX XX/XX/XXXX</div>
+      <% } %>
+  </div>
+</div>
